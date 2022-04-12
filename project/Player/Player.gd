@@ -7,6 +7,7 @@ const SPEED := 250.0
 const TIME_TO_TELEPORT := 1.0
 
 var _time_teleport_key_held := 0.0
+var _damage := 1
 
 
 func _physics_process(delta:float)->void:
@@ -27,9 +28,10 @@ func _physics_process(delta:float)->void:
 
 
 func _shoot()->void:
-	var bullet = load("res://Player/Bullet.tscn").instance()
+	var bullet = load("res://Player/PlayerBullet.tscn").instance()
 	bullet.position = global_position
-	bullet.rotation = rotation
+	bullet.angle = rotation
+	bullet.damage = _damage
 	get_parent().add_child(bullet)
 
 
@@ -39,4 +41,8 @@ func _draw()->void:
 
 func _on_EnemyDetectionZone_body_entered(body:PhysicsBody2D)->void:
 	if body is Enemy:
-		body.activate()
+		body.activate(self)
+
+
+func hit(damage_done:int)->void:
+	pass

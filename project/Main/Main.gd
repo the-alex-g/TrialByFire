@@ -46,7 +46,7 @@ func _set_cell(x:int, y:int, noise:OpenSimplexNoise)->void:
 		_tilemap.set_cell(x, y, EMPTY_TILE)
 		if x > 1 and y > 1 and x < BOARD_SIZE and y < BOARD_SIZE:
 			if randi() % 100 < PERCENT_CHANCE_OF_ENEMY:
-				var enemy = load("res://Enemy/Enemy.tscn").instance()
+				var enemy = load("res://Enemy/TurretEnemy.tscn").instance()
 				enemy.position = _tilemap.map_to_world(Vector2(x, y)) + Vector2(16, 16)
 				_enemy_container.add_child(enemy)
 			else:
@@ -57,10 +57,6 @@ func _finish_map()->void:
 	var _player_map_position = _potential_player_positions[randi()%_potential_player_positions.size()]
 	_player.position = _tilemap.map_to_world(_player_map_position) + Vector2(16, 16)
 	_potential_player_positions = []
-	
-#	for x in range(_player_map_position.x - 3, _player_map_position.x + 3):
-#		for y in range(_player_map_position.y - 3, _player_map_position.y + 3):
-#			_tilemap.set_cell(x, y, EMPTY_TILE)
 	
 	_tilemap.update_bitmask_region()
 
