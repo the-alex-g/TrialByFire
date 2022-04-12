@@ -49,7 +49,8 @@ func _set_cell(x:int, y:int, noise:OpenSimplexNoise)->void:
 				var enemy = load("res://Enemy/Enemy.tscn").instance()
 				enemy.position = _tilemap.map_to_world(Vector2(x, y)) + Vector2(16, 16)
 				_enemy_container.add_child(enemy)
-			_potential_player_positions.append(Vector2(x, y))
+			else:
+				_potential_player_positions.append(Vector2(x, y))
 
 
 func _finish_map()->void:
