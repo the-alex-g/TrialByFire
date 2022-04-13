@@ -56,8 +56,6 @@ func _shoot()->void:
 	get_parent().add_child(bullet)
 
 
-func _draw()->void:
-	draw_circle(Vector2.ZERO, 10, Color.red)
 
 
 func _on_EnemyDetectionZone_body_entered(body:PhysicsBody2D)->void:
