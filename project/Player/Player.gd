@@ -15,6 +15,8 @@ var _experience := 0
 var _level_threshold := 100
 var _max_health := 10
 
+onready var _sprite = $Sprite as AnimatedSprite
+
 
 func _ready()->void:
 	_health = _max_health
@@ -25,11 +27,20 @@ func _physics_process(delta:float)->void:
 		Input.get_axis("left", "right"),
 		Input.get_axis("up", "down")
 	).normalized()
+	
+	if direction != Vector2.ZERO:
+		_sprite.play("running")
+	else:
+		_sprite.play("stationary")
+	
 	# warning-ignore:return_value_discarded
 	move_and_collide(direction * SPEED * delta)
+	
 	look_at(get_global_mouse_position())
+	
 	if Input.is_action_just_pressed("shoot"):
 		_shoot()
+	
 	if Input.is_action_pressed("teleport"):
 		_time_teleport_key_held += delta
 		if _time_teleport_key_held >= TIME_TO_TELEPORT:
