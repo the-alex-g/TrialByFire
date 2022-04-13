@@ -5,6 +5,7 @@ const VISUAL_BORDER_WIDTH := 10
 const BOARD_SIZE := 100
 const EMPTY_TILE := 1
 const WALL_TILE := 3
+const ENEMY_PATHS := ["res://Enemy/TurretEnemy.tscn", "res://Enemy/MeleeEnemy.tscn"]
 
 var _potential_player_positions = [] as PoolVector2Array
 
@@ -46,7 +47,7 @@ func _set_cell(x:int, y:int, noise:OpenSimplexNoise)->void:
 		_tilemap.set_cell(x, y, EMPTY_TILE)
 		if x > 1 and y > 1 and x < BOARD_SIZE and y < BOARD_SIZE:
 			if randi() % 100 < PERCENT_CHANCE_OF_ENEMY:
-				var enemy = load("res://Enemy/TurretEnemy.tscn").instance()
+				var enemy = load(ENEMY_PATHS[randi()%ENEMY_PATHS.size()]).instance()
 				enemy.position = _tilemap.map_to_world(Vector2(x, y)) + Vector2(16, 16)
 				_enemy_container.add_child(enemy)
 			else:

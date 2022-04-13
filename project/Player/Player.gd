@@ -8,6 +8,7 @@ const TIME_TO_TELEPORT := 1.0
 
 var _time_teleport_key_held := 0.0
 var _damage := 1
+var _health := 0
 
 
 func _physics_process(delta:float)->void:
@@ -45,4 +46,4 @@ func _on_EnemyDetectionZone_body_entered(body:PhysicsBody2D)->void:
 
 
 func hit(damage_done:int)->void:
-	pass
+	_health -= damage_done

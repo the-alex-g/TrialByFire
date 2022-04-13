@@ -8,13 +8,6 @@ var _activated := false
 var _target : KinematicBody2D = null
 
 
-func _process(_delta:float)->void:
-	if not _activated:
-		return
-	
-	look_at(_target.global_position)
-
-
 func _draw()->void:
 	draw_circle(Vector2.ZERO, 10, Color.orange)
 
@@ -28,3 +21,8 @@ func hit(damage_done:int)->void:
 func activate(player)->void:
 	_activated = true
 	_target = player
+
+
+func _can_see_target()->bool:
+	var intersection := get_world_2d().direct_space_state.intersect_ray(position, _target.global_position, [self])
+	return intersection.collider == _target

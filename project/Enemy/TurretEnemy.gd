@@ -16,7 +16,9 @@ func _process(_delta:float)->void:
 	if not _activated:
 		return
 	
-	if _can_shoot:
+	look_at(_target.global_position)
+	
+	if _can_shoot and _can_see_target():
 		_shoot()
 
 
