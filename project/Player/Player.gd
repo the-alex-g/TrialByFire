@@ -2,6 +2,8 @@ class_name Player
 extends KinematicBody2D
 
 signal respawn
+signal update_xp(new_value, new_max)
+signal update_health(new_value)
 
 const SPEED := 250.0
 const TIME_TO_TELEPORT := 1.0
@@ -54,6 +56,7 @@ func _on_EnemyDetectionZone_body_entered(body:PhysicsBody2D)->void:
 
 func hit(damage_done:int)->void:
 	_health -= damage_done
+	emit_signal("update_health", _health)
 
 
 func slew_enemy(enemy_type:String)->void:
@@ -68,9 +71,12 @@ func slew_enemy(enemy_type:String)->void:
 	if _experience >= _level_threshold:
 		_level()
 	
+	emit_signal("update_xp", _experience, _level_threshold)
+
 
 func _level()->void:
 	_experience -= _level_threshold
 	_level_threshold *= 2
 	_max_health += 10
 	_health = _max_health
+	emit_signal("update_health", _health)

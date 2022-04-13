@@ -1,8 +1,9 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://Main/Main.gd" type="Script" id=1]
 [ext_resource path="res://Main/test_tiles.png" type="Texture" id=2]
 [ext_resource path="res://Player/Player.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Main/HUD.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Main/test_autotile_3x3.png" type="Texture" id=5]
 
 [sub_resource type="ConvexPolygonShape2D" id=2]
@@ -192,4 +193,8 @@ format = 1
 
 [node name="EnemyContainer" type="Node2D" parent="."]
 
+[node name="HUD" parent="." instance=ExtResource( 4 )]
+
 [connection signal="respawn" from="Player" to="." method="_on_Player_respawn"]
+[connection signal="update_health" from="Player" to="HUD" method="_on_Player_update_health"]
+[connection signal="update_xp" from="Player" to="HUD" method="_on_Player_update_xp"]
