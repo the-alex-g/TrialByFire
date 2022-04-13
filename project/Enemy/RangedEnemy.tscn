@@ -9,6 +9,7 @@ collision_layer = 2
 collision_mask = 3
 script = ExtResource( 1 )
 color = Color( 0.945098, 0, 1, 1 )
+enemy_type = "ranged"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )

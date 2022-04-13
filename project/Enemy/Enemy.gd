@@ -4,6 +4,7 @@ extends KinematicBody2D
 export var health := 1
 export var damage := 1
 export var color := Color.orange
+export var enemy_type := ""
 
 var _activated := false
 var _target : KinematicBody2D = null
@@ -16,6 +17,8 @@ func _draw()->void:
 func hit(damage_done:int)->void:
 	health -= damage_done
 	if health <= 0:
+		if _target != null:
+			_target.slew_enemy(enemy_type)
 		queue_free()
 
 

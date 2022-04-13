@@ -9,6 +9,13 @@ const TIME_TO_TELEPORT := 1.0
 var _time_teleport_key_held := 0.0
 var _damage := 1
 var _health := 0
+var _experience := 0
+var _level_threshold := 100
+var _max_health := 10
+
+
+func _ready()->void:
+	_health = _max_health
 
 
 func _physics_process(delta:float)->void:
@@ -47,3 +54,23 @@ func _on_EnemyDetectionZone_body_entered(body:PhysicsBody2D)->void:
 
 func hit(damage_done:int)->void:
 	_health -= damage_done
+
+
+func slew_enemy(enemy_type:String)->void:
+	match enemy_type:
+		"melee":
+			_experience += 2
+		"ranged":
+			_experience += 3
+		"turret":
+			_experience += 1
+	
+	if _experience >= _level_threshold:
+		_level()
+	
+
+func _level()->void:
+	_experience -= _level_threshold
+	_level_threshold *= 2
+	_max_health += 10
+	_health = _max_health
