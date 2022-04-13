@@ -1,10 +1,66 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Enemy/Bullet/EnemyBullet.gd" type="Script" id=1]
+[ext_resource path="res://Enemy/Bullet/Spore.png" type="Texture" id=2]
 
 [sub_resource type="CircleShape2D" id=1]
+radius = 4.0
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 8, 8, 8 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 0, 8, 8 )
+
+[sub_resource type="SpriteFrames" id=4]
+animations = [ {
+"frames": [ SubResource( 2 ) ],
+"loop": true,
+"name": "ranged",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 3 ) ],
+"loop": true,
+"name": "turret",
+"speed": 5.0
+} ]
+
+[sub_resource type="Animation" id=5]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1e-05, 1e-05 ) ]
+}
+
+[sub_resource type="Animation" id=6]
+resource_name = "pulse"
+length = 0.6
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 0.7, 0.7 ) ]
+}
 
 [node name="EnemyBullet" type="Area2D"]
+scale = Vector2( 1e-05, 1e-05 )
 collision_layer = 0
 collision_mask = 5
 script = ExtResource( 1 )
@@ -14,5 +70,16 @@ shape = SubResource( 1 )
 
 [node name="LifeTimer" type="Timer" parent="."]
 
+[node name="Sprite" type="AnimatedSprite" parent="."]
+frames = SubResource( 4 )
+animation = "ranged"
+
+[node name="Tween" type="Tween" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/RESET = SubResource( 5 )
+anims/pulse = SubResource( 6 )
+
 [connection signal="body_entered" from="." to="." method="_on_EnemyBullet_body_entered"]
 [connection signal="timeout" from="LifeTimer" to="." method="_on_LifeTimer_timeout"]
+[connection signal="tween_all_completed" from="Tween" to="." method="_on_Tween_tween_all_completed"]

@@ -38,6 +38,7 @@ func _shoot()->void:
 	_bullet.position = global_position
 	_bullet.angle = rotation
 	_bullet.damage = damage
+	_bullet.type = enemy_type
 	get_parent().add_child(_bullet)
 	_cooldown_timer.start(COOLDOWN_TIME + randf())
 

@@ -3,6 +3,7 @@
 [ext_resource path="res://Player/PlayerBullet.gd" type="Script" id=1]
 
 [sub_resource type="CircleShape2D" id=1]
+radius = 4.0
 
 [node name="Bullet" type="Area2D"]
 collision_layer = 0
