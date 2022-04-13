@@ -15,4 +15,3 @@ func _on_Player_update_xp(new_value:int, new_max:int)->void:
 	_xp_bar.value = new_value
 	if new_max != _xp_bar.max_value:
 		_xp_bar.max_value = new_max
-	print(new_value)
