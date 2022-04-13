@@ -5,10 +5,11 @@ export var speed := 100.0
 
 var _has_seen_target := false
 var _should_move := false
+var _stop_moving := false
 
 
 func _process(delta:float)->void:
-	if not _activated:
+	if not _activated or _stop_moving:
 		return
 	
 	if _can_see_target():

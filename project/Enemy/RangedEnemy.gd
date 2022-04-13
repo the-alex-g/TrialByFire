@@ -15,9 +15,13 @@ func _process(_delta:float)->void:
 	
 	if _can_see_target():
 		if _is_target_in_range():
-			_should_move = false
+			_stop_moving = true
 			if _can_shoot:
 				_shoot()
+		else:
+			_stop_moving = false
+	else:
+		_stop_moving = false
 
 
 func _is_target_in_range()->bool:
