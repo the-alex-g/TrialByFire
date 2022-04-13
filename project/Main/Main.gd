@@ -5,9 +5,14 @@ const VISUAL_BORDER_WIDTH := 10
 const BOARD_SIZE := 100
 const EMPTY_TILE := 1
 const WALL_TILE := 3
-const ENEMY_PATHS := ["res://Enemy/TurretEnemy.tscn", "res://Enemy/MeleeEnemy.tscn"]
+const ENEMY_DATA := [
+	{"path":"res://Enemy/MeleeEnemy.tscn", "ratio":2},
+	{"path":"res://Enemy/RangedEnemy.tscn", "ratio":2},
+	{"path":"res://Enemy/TurretEnemy.tscn", "ratio":2},
+]
 
 var _potential_player_positions = [] as PoolVector2Array
+var _enemy_path_list := []
 
 onready var _tilemap = $TileMap as TileMap
 onready var _enemy_container = $EnemyContainer as Node2D
@@ -15,6 +20,10 @@ onready var _player = $Player as Player
 
 
 func _ready()->void:
+	for dataset in ENEMY_DATA:
+		for i in dataset["ratio"]:
+			_enemy_path_list.append(dataset["path"])
+	
 	randomize()
 	# create noise
 	var noise := OpenSimplexNoise.new()
@@ -47,7 +56,7 @@ func _set_cell(x:int, y:int, noise:OpenSimplexNoise)->void:
 		_tilemap.set_cell(x, y, EMPTY_TILE)
 		if x > 1 and y > 1 and x < BOARD_SIZE and y < BOARD_SIZE:
 			if randi() % 100 < PERCENT_CHANCE_OF_ENEMY:
-				var enemy = load(ENEMY_PATHS[randi()%ENEMY_PATHS.size()]).instance()
+				var enemy = load(_enemy_path_list[randi() % _enemy_path_list.size()]).instance()
 				enemy.position = _tilemap.map_to_world(Vector2(x, y)) + Vector2(16, 16)
 				_enemy_container.add_child(enemy)
 			else:

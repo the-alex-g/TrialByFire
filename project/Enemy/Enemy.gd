@@ -3,13 +3,14 @@ extends KinematicBody2D
 
 export var health := 1
 export var damage := 1
+export var color := Color.orange
 
 var _activated := false
 var _target : KinematicBody2D = null
 
 
 func _draw()->void:
-	draw_circle(Vector2.ZERO, 10, Color.orange)
+	draw_circle(Vector2.ZERO, 10, color)
 
 
 func hit(damage_done:int)->void:
@@ -25,4 +26,7 @@ func activate(player)->void:
 
 func _can_see_target()->bool:
 	var intersection := get_world_2d().direct_space_state.intersect_ray(position, _target.global_position, [self])
-	return intersection.collider == _target
+	if intersection.size() > 0:
+		return intersection.collider == _target
+	else:
+		return false

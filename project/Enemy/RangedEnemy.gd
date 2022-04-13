@@ -1,6 +1,7 @@
-extends Enemy
+extends MobileEnemy
 
-const COOLDOWN_TIME := 1.5
+const RANGE := 250.0
+const COOLDOWN_TIME := 1.0
 const BULLET := preload("res://Enemy/Bullet/EnemyBullet.tscn")
 
 var _can_shoot := true
@@ -12,10 +13,19 @@ func _process(_delta:float)->void:
 	if not _activated:
 		return
 	
-	look_at(_target.global_position)
-	
-	if _can_shoot and _can_see_target():
-		_shoot()
+	if _can_see_target():
+		if _is_target_in_range():
+			_should_move = false
+			if _can_shoot:
+				_shoot()
+
+
+func _is_target_in_range()->bool:
+	var difference := _target.global_position - position
+	if difference.length_squared() < RANGE * RANGE:
+		return true
+	else:
+		return false
 
 
 func _shoot()->void:
