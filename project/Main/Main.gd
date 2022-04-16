@@ -3,7 +3,7 @@ extends Node2D
 const PERCENT_CHANCE_OF_ENEMY := 2.0
 const VISUAL_BORDER_WIDTH := 10
 const BOARD_SIZE := 100
-const EMPTY_TILE := 1
+const EMPTY_TILES := [4, 5, 6]
 const WALL_TILE := 3
 const ENEMY_DATA := [
 	{"path":"res://Enemy/MeleeEnemy.tscn", "ratio":2},
@@ -53,7 +53,7 @@ func _set_cell(x:int, y:int, noise:OpenSimplexNoise)->void:
 	if value > 0.2 or value < -0.4:
 		_tilemap.set_cell(x, y, WALL_TILE)
 	else:
-		_tilemap.set_cell(x, y, EMPTY_TILE)
+		_tilemap.set_cell(x, y, _get_empty_tile())
 		if x > 1 and y > 1 and x < BOARD_SIZE and y < BOARD_SIZE:
 			if randi() % 100 < PERCENT_CHANCE_OF_ENEMY:
 				var enemy = load(_enemy_path_list[randi() % _enemy_path_list.size()]).instance()
@@ -61,6 +61,10 @@ func _set_cell(x:int, y:int, noise:OpenSimplexNoise)->void:
 				_enemy_container.add_child(enemy)
 			else:
 				_potential_player_positions.append(Vector2(x, y))
+
+
+func _get_empty_tile()->int:
+	return EMPTY_TILES[randi()%EMPTY_TILES.size()]
 
 
 func _finish_map()->void:
