@@ -302,6 +302,7 @@ cell_size = Vector2( 32, 32 )
 format = 1
 
 [node name="Player" parent="." instance=ExtResource( 3 )]
+position = Vector2( 0, 0 )
 
 [node name="EnemyContainer" type="Node2D" parent="."]
 
