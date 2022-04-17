@@ -9,7 +9,7 @@ var _stop_moving := false
 
 
 func _process(delta:float)->void:
-	if not _activated or _stop_moving:
+	if not _activated:
 		return
 	
 	if _can_see_target():
@@ -19,7 +19,7 @@ func _process(delta:float)->void:
 		
 		look_at(_target.global_position)
 	
-	if _should_move:
+	if _should_move and not _stop_moving:
 		var direction := Vector2.RIGHT.rotated(rotation)
 		var collision := move_and_collide(direction * speed * delta)
 		
