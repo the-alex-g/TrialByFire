@@ -15,7 +15,7 @@ const EMPTY_TILES := {
 	12:"decorated",
 }
 const PLAIN_TILE_MULTIPLIER := 20
-const WALL_TILE := 3
+const WALL_TILE := 13
 const ENEMY_DATA := [
 	{"path":"res://Enemy/MeleeEnemy.tscn", "ratio":2},
 	{"path":"res://Enemy/RangedEnemy.tscn", "ratio":2},
