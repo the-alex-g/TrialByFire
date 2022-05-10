@@ -21,10 +21,15 @@ const ENEMY_DATA := [
 	{"path":"res://Enemy/RangedEnemy.tscn", "ratio":2},
 	{"path":"res://Enemy/TurretEnemy.tscn", "ratio":2},
 ]
+const CONFIG_PATH := "user://settings.cfg"
 
 var _potential_player_positions = [] as PoolVector2Array
 var _enemy_path_list := []
 var _empty_tiles := []
+var _config := ConfigFile.new()
+var _melee_slain := 0
+var _ranged_slain := 0
+var _turret_slain := 0
 
 onready var _tilemap = $TileMap as TileMap
 onready var _enemy_container = $EnemyContainer as Node2D
@@ -32,6 +37,12 @@ onready var _player = $Player as Player
 
 
 func _ready()->void:
+	var error := _config.load(CONFIG_PATH)
+	if error == OK:
+		_melee_slain = _config.get_value("defeated_enemies", "melee", 0)
+		_ranged_slain = _config.get_value("defeated_enemies", "ranged", 0)
+		_turret_slain = _config.get_value("defeated_enemies", "turret", 0)
+	
 	for dataset in ENEMY_DATA:
 		for i in dataset["ratio"]:
 			_enemy_path_list.append(dataset["path"])
@@ -104,3 +115,18 @@ func _generate_map()->void:
 
 func _on_Player_respawn()->void:
 	_generate_map()
+
+
+func _on_Player_enemy_dead(enemy_name:String)->void:
+	var variable_name := "_" + enemy_name + "_slain"
+	set(variable_name, get(variable_name) + 1)
+	_save()
+
+
+func _save()->void:
+	_config.set_value("defeated_enemies", "turret", _turret_slain)
+	_config.set_value("defeated_enemies", "ranged", _ranged_slain)
+	_config.set_value("defeated_enemies", "melee", _melee_slain)
+	
+	# warning-ignore:return_value_discarded
+	_config.save(CONFIG_PATH)

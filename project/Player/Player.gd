@@ -4,6 +4,7 @@ extends KinematicBody2D
 signal respawn
 signal update_xp(new_value, new_max)
 signal update_health(new_value)
+signal enemy_dead(enemy_name)
 
 const SPEED := 250.0
 const TIME_TO_TELEPORT := 1.0
@@ -81,6 +82,7 @@ func slew_enemy(enemy_type:String)->void:
 		_level()
 	
 	emit_signal("update_xp", _experience, _level_threshold)
+	emit_signal("enemy_dead", enemy_type)
 
 
 func _level()->void:

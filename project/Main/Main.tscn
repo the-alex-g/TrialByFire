@@ -308,6 +308,7 @@ position = Vector2( 0, 0 )
 
 [node name="HUD" parent="." instance=ExtResource( 4 )]
 
+[connection signal="enemy_dead" from="Player" to="." method="_on_Player_enemy_dead"]
 [connection signal="respawn" from="Player" to="." method="_on_Player_respawn"]
 [connection signal="update_health" from="Player" to="HUD" method="_on_Player_update_health"]
 [connection signal="update_xp" from="Player" to="HUD" method="_on_Player_update_xp"]
