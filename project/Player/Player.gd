@@ -57,8 +57,6 @@ func _shoot()->void:
 	get_parent().add_child(bullet)
 
 
-
-
 func _on_EnemyDetectionZone_body_entered(body:PhysicsBody2D)->void:
 	if body is Enemy:
 		body.activate(self)

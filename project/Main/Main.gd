@@ -76,10 +76,6 @@ func _get_empty_tile()->int:
 	return _empty_tiles[randi()%_empty_tiles.size()]
 
 
-func _finish_map()->void:
-	pass
-
-
 func _generate_map()->void:
 	# remove any enemies already on board
 	for enemy in _enemy_container.get_children():
